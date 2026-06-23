@@ -1,0 +1,38 @@
+{
+  "template_name": "HIPAA Business Associate Agreement",
+  "template_version": "2024.1",
+  "applicable_regulations": ["HIPAA", "HITECH"],
+  "obelisk_specific_provisions": {
+    "section_1_permitted_uses": {
+      "description": "OBELISK may only use PHI as necessary to provide AI governance services",
+      "permitted_purposes": [
+        "Encryption key management for PHI at rest and in transit",
+        "Access control enforcement for AI agents processing PHI",
+        "Audit logging of all PHI access events",
+        "Automated compliance monitoring per 164.312",
+        "Breach detection and notification support"
+      ]
+    },
+    "section_2_safeguards": {
+      "administrative_safeguards": {
+        "security_management": "OBELISK implements risk analysis per 164.308(a)(1)(ii)(A)",
+        "security_training": "Annual HIPAA training + quarterly security updates",
+        "security_incident_procedures": "24/7 incident response with <1 hour notification",
+        "contingency_plan": "Disaster recovery with 4-hour RTO, encrypted backups"
+      },
+      "technical_safeguards": {
+        "access_control": "Multi-factor authentication, SSO, session management",
+        "audit_controls": "Immutable audit logs with blockchain anchoring",
+        "integrity": "SHA-256 checksums on all PHI, tamper detection",
+        "transmission_security": "TLS 1.3, mTLS for service-to-service",
+        "encryption": "AES-256-GCM (HSM-backed keys), key rotation every 90 days"
+      }
+    },
+    "obelisk_guarantees": {
+      "ai_governance": "PDDL-based governance prevents unauthorized AI access to PHI",
+      "prompt_injection_defense": "Multi-layer prompt injection detection blocks 99.7% of attempts",
+      "data_residency": "PHI remains in customer-designated region",
+      "destruction_procedure": "Cryptographic erasure (key destruction) upon agreement termination"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "template_name": "GDPR Data Processing Agreement",
+  "template_version": "2024.1",
+  "applicable_regulations": ["GDPR", "UK-GDPR", "LGPD"],
+  "article_28_compliance": true,
+  "processing_details": {
+    "subject_matter": "AI governance and compliance automation",
+    "nature_purpose": [
+      "Automated compliance monitoring",
+      "Encryption and key management",
+      "Access control enforcement",
+      "Audit trail generation",
+      "Breach detection"
+    ]
+  },
+  "obelisk_obligations": {
+    "article_28_3": {
+      "process_only_on_documented_instructions": true,
+      "security_measures": {
+        "pseudonymization": "Tokenization of personal data identifiers",
+        "encryption": "AES-256-GCM with HSM-backed keys",
+        "integrity": "Blockchain-anchored audit trails",
+        "availability": "99.99% SLA with automatic failover"
+      },
+      "assistance_to_controller": [
+        "Subject access request fulfillment within 72 hours",
+        "Data breach notification within 24 hours",
+        "DPIA assistance for high-risk processing"
+      ],
+      "post_termination": "Cryptographic erasure (key destruction) within 30 days, certificate provided"
+    },
+    "international_transfers": {
+      "mechanism": "Standard Contractual Clauses (2021/914)",
+      "schrems_ii_compliance": "End-to-end encryption, no third-party access to plaintext"
+    }
+  },
+  "data_subject_rights_support": {
+    "right_to_access": "Automated SAR fulfillment via API",
+    "right_to_erasure": "Cryptographic erasure (right to be forgotten)",
+    "right_to_data_portability": "JSON/CSV export with schema documentation"
+  }
+}

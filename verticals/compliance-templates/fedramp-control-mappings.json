@@ -1,0 +1,56 @@
+{
+  "template_name": "FedRAMP High Control Implementation",
+  "template_version": "Rev 5, 2024",
+  "impact_level": "High",
+  "cloud_service_model": "SaaS",
+  "control_families": {
+    "AC": {
+      "family_name": "Access Control",
+      "controls": {
+        "AC-1": {
+          "title": "Access Control Policy and Procedures",
+          "obelisk_implementation": "Automated policy enforcement via PDDL governance domains. Access policies defined declaratively, version-controlled, and enforced at runtime.",
+          "implementation_status": "Implemented"
+        },
+        "AC-2": {
+          "title": "Account Management",
+          "obelisk_implementation": "Automated account lifecycle management. Accounts provisioned via SCIM, deactivated automatically on termination signal. Quarterly access reviews with manager attestation."
+        },
+        "AC-3": {
+          "title": "Access Enforcement",
+          "obelisk_implementation": "Mandatory Access Control (MAC) via PDDL clearance-isolation domain. Bell-LaPadula model enforced for defense deployments."
+        },
+        "AC-17": {
+          "title": "Remote Access",
+          "obelisk_implementation": "Zero Trust Network Access (ZTNA) with device posture check. mTLS required, session limited to 8 hours, continuous authentication via behavioral biometrics."
+        }
+      }
+    },
+    "SC": {
+      "family_name": "System and Communications Protection",
+      "controls": {
+        "SC-7": {
+          "title": "Boundary Protection",
+          "obelisk_implementation": "Defense in depth with WAF, DDoS protection, network segmentation, and micro-segmentation via service mesh."
+        },
+        "SC-8": {
+          "title": "Transmission Confidentiality and Integrity",
+          "obelisk_implementation": "TLS 1.3 with perfect forward secrecy. mTLS for service mesh. AES-256-GCM for application-layer encryption."
+        },
+        "SC-13": {
+          "title": "Cryptographic Protection",
+          "obelisk_implementation": "FIPS 140-2 Level 3 HSM for all key operations. Approved algorithms: AES-256-GCM, RSA-4096, ECDSA P-384, SHA-384."
+        },
+        "SC-28": {
+          "title": "Protection of Information at Rest",
+          "obelisk_implementation": "All data encrypted at rest with AES-256-GCM. Keys managed in HSM with automatic rotation every 90 days."
+        }
+      }
+    }
+  },
+  "continuous_monitoring": {
+    "vulnerability_scanning": "Monthly authenticated scans, quarterly unauthenticated scans",
+    "penetration_testing": "Annual by FedRAMP 3PAO",
+    "status_reporting": "Monthly to AO, annual authorization package update"
+  }
+}
