@@ -1,0 +1,104 @@
+# OBELISK Enterprise — Docker Compose for On-Premises Deployment
+version: "3.9"
+
+services:
+  obelisk-api:
+    image: obelisk/enterprise:${OBELISK_VERSION:-latest}
+    container_name: obelisk-api
+    restart: unless-stopped
+    ports:
+      - "8443:8443"
+    environment:
+      - OBELISK_ENV=on-prem
+      - OBELISK_MODE=enterprise
+      - DB_HOST=obelisk-postgres
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-obelisk}
+      - DB_USER=${DB_USER:-obelisk}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - REDIS_HOST=obelisk-redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - VAULT_ADDR=http://obelisk-vault:8200
+      - VAULT_TOKEN=${VAULT_TOKEN}
+      - HSM_ENABLED=${HSM_ENABLED:-false}
+      - LICENSE_KEY=${LICENSE_KEY}
+    volumes:
+      - obelisk-data:/var/obelisk/data
+      - obelisk-domains:/var/obelisk/pddl-domains
+      - obelisk-logs:/var/obelisk/logs
+    depends_on:
+      - postgres
+      - redis
+      - vault
+    networks:
+      - obelisk-backend
+      - obelisk-frontend
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: obelisk-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_NAME:-obelisk}
+      - POSTGRES_USER=${DB_USER:-obelisk}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - obelisk-backend
+
+  redis:
+    image: redis:7-alpine
+    container_name: obelisk-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --appendonly yes
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    networks:
+      - obelisk-backend
+
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: obelisk-vault
+    restart: unless-stopped
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-data:/vault/file
+    networks:
+      - obelisk-backend
+
+  nginx:
+    image: nginx:alpine
+    container_name: obelisk-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - obelisk-api
+    networks:
+      - obelisk-frontend
+
+volumes:
+  obelisk-data:
+  obelisk-domains:
+  obelisk-logs:
+  postgres-data:
+  redis-data:
+  vault-data:
+
+networks:
+  obelisk-backend:
+    driver: bridge
+    internal: true
+  obelisk-frontend:
+    driver: bridge
